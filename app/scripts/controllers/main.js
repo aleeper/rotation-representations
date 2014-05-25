@@ -2,9 +2,10 @@
 
 angular.module('rotationAppApp')
   .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+    $scope.masterParams = {
+      w: 1,
+      x: 0,
+      y: 0,
+      z: 0
+    };
   });
