@@ -3,10 +3,32 @@
 </div>
 
 <section class='representation representation-matrix' ng-controller='MatrixCtrl'>
-  <input type='text' ng-model='masterParams.w' />
-  <input type='text' ng-model='masterParams.x' />
-  <input type='text' ng-model='masterParams.y' />
-  <input type='text' ng-model='masterParams.z' />
+  <table>
+    <tr>
+      <td><sup>A</sup>R<sup>B</sup></td>
+      <td>b<sub>x</sub></td>
+      <td>b<sub>y</sub></td>
+      <td>b<sub>z</sub></td>
+    </tr>
+    <tr>
+      <td>a<sub>x</sub></td>
+      <td><input type='text' ng-model='matrix.xx' /></td>
+      <td><input type='text' ng-model='matrix.xy' /></td>
+      <td><input type='text' ng-model='matrix.xz' /></td>
+    </tr>
+    <tr>
+      <td>a<sub>y</sub></td>
+      <td><input type='text' ng-model='matrix.yx' /></td>
+      <td><input type='text' ng-model='matrix.yy' /></td>
+      <td><input type='text' ng-model='matrix.yz' /></td>
+    </tr>
+    <tr>
+      <td>a<sub>z</sub></td>
+      <td><input type='text' ng-model='matrix.zx' /></td>
+      <td><input type='text' ng-model='matrix.zy' /></td>
+      <td><input type='text' ng-model='matrix.zz' /></td>
+    </tr>
+  </table>
 </section>
 
 <section class='representation representation-quaternion' ng-controller='QuaternionCtrl'>
@@ -15,25 +37,25 @@
       <tr>
         <td>w</td>
         <td>
-          <input type='text' ng-model='quaternion.w' />
+          <input type='number' ng-model='quaternion.w' />
         </td>
       </tr>
       <tr>
         <td>x</td>
         <td>
-          <input type='text' ng-model='quaternion.x' />
+          <input type='number' ng-model='quaternion.x' />
         </td>
       </tr>
       <tr>
         <td>y</td>
         <td>
-          <input type='text' ng-model='quaternion.y' />
+          <input type='number' ng-model='quaternion.y' />
         </td>
       </tr>
       <tr>
         <td>z</td>
         <td>
-          <input type='text' ng-model='quaternion.z' />
+          <input type='number' ng-model='quaternion.z' />
         </td>
       </tr>
     </tbody>
@@ -41,7 +63,10 @@
 </section>
 
 <section class='representation representation-angle-axis'>
-
+  <input type='text' ng-model='masterParams.w' />
+  <input type='text' ng-model='masterParams.x' />
+  <input type='text' ng-model='masterParams.y' />
+  <input type='text' ng-model='masterParams.z' />
 </section>
 
 <section class='representation representation-euler-angles'>
