@@ -2,6 +2,7 @@
 
 angular.module('rotationAppApp')
   .directive('ngWebgl', function () {
+
     return {
       restrict: 'A',
       scope: {
@@ -14,6 +15,7 @@ angular.module('rotationAppApp')
       link: function postLink(scope, element, attrs) {
 
         var camera, scene, renderer,
+          basis,
           shadowMesh, icosahedron, light,
           mouseX = 0, mouseY = 0,
           contW = (scope.fillcontainer) ?
@@ -23,20 +25,21 @@ angular.module('rotationAppApp')
           windowHalfY = contH / 2,
           materials = {};
 
-
         scope.init = function () {
           console.log('ngWebgl init!');
 
           // Camera
-          camera = new THREE.PerspectiveCamera( 20, contW / contH, 1, 10000 );
-          camera.position.z = 1800;
+          camera = new THREE.PerspectiveCamera(30, contW / contH, 0.1, 100 );
+          camera.position.z = 10;
 
           // Scene
           scene = new THREE.Scene();
+          basis = new createRigidBasis(2.0);
+          scene.add(basis);
 
           // Ligthing
           light = new THREE.DirectionalLight( 0xffffff );
-          light.position.set( 0, 0, 1 );
+          light.position.set( 1, 1, 1 );
           scene.add( light );
 
           // Shadow
@@ -46,7 +49,9 @@ angular.module('rotationAppApp')
 
           // Render a 2d gradient to use as shadow
           var context = canvas.getContext( '2d' );
-          var gradient = context.createRadialGradient( canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2 );
+          var gradient = context.createRadialGradient(
+            canvas.width / 2, canvas.height / 2, 0,
+            canvas.width / 2, canvas.height / 2, canvas.width / 2 );
 
           gradient.addColorStop( 0.1, 'rgba(200,200,200,1)' );
           gradient.addColorStop( 1, 'rgba(255,255,255,1)' );
@@ -60,18 +65,18 @@ angular.module('rotationAppApp')
           var shadowMaterial = new THREE.MeshBasicMaterial( {
             map: shadowTexture
           } );
-          var shadowGeo = new THREE.PlaneGeometry( 300, 300, 1, 1 );
+          var shadowGeo = new THREE.PlaneGeometry( 3, 3, 1, 1 );
 
           // Apply the shadow texture to a plane
           shadowMesh = new THREE.Mesh( shadowGeo, shadowMaterial );
-          shadowMesh.position.y = - 250;
+          shadowMesh.position.y = - 2.5;
           shadowMesh.rotation.x = - Math.PI / 2;
           scene.add( shadowMesh );
 
           var faceIndices = [ 'a', 'b', 'c', 'd' ];
 
           var color, f, p, n, vertexIndex,
-            radius = 200,
+            radius = 1,
             geometry  = new THREE.IcosahedronGeometry( radius, 1 );
 
 
@@ -121,7 +126,7 @@ angular.module('rotationAppApp')
           icosahedron = new THREE.Mesh( geometry, materials[scope.materialType] );
           icosahedron.position.x = 0;
           icosahedron.rotation.x = 0;
-          scene.add( icosahedron );
+          //scene.add( icosahedron );
 
           renderer = new THREE.WebGLRenderer( { antialias: true } );
           renderer.setClearColor( 0xffffff );
@@ -201,7 +206,7 @@ angular.module('rotationAppApp')
 
         scope.render = function () {
 
-          camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+          camera.position.x += ( mouseX*0.01 - camera.position.x ) * 0.05;
           // camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
 
           camera.lookAt( scene.position );
