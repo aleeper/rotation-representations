@@ -41,32 +41,36 @@
   </section>
 
   <section class='representation representation-quaternion eight columns' ng-controller='QuaternionCtrl'>
-    <h4>Quaternion (Euler Parameters)</h4>
+    <h4>Euler Parameters (Quaternion)</h4>
     <table>
       <tbody>
-        <tr>
-          <td>w</td>
-          <td>
-            <input type='number' ng-model='quaternion.w' />
-          </td>
-        </tr>
         <tr>
           <td>x</td>
           <td>
             <input type='number' ng-model='quaternion.x' />
           </td>
+          <td>e1</td>
         </tr>
         <tr>
           <td>y</td>
           <td>
             <input type='number' ng-model='quaternion.y' />
           </td>
+          <td>e2</td>
         </tr>
         <tr>
           <td>z</td>
           <td>
             <input type='number' ng-model='quaternion.z' />
           </td>
+          <td>e3</td>
+        </tr>
+        <tr>
+          <td>w</td>
+          <td>
+            <input type='number' ng-model='quaternion.w' />
+          </td>
+          <td>e0</td>
         </tr>
       </tbody>
     </table>
@@ -113,10 +117,13 @@
 
   <section class='representation eight columns'>
     <h4>Master Params (for debugging)</h4>
-    <input type='number' ng-model='masterParams.w' />
-    <input type='number' ng-model='masterParams.x' />
-    <input type='number' ng-model='masterParams.y' />
-    <input type='number' ng-model='masterParams.z' />
+    x: <input type='number' ng-model='masterParams.x' />
+    <br />
+    y: <input type='number' ng-model='masterParams.y' />
+    <br />
+    z: <input type='number' ng-model='masterParams.z' />
+    <br />
+    w: <input type='number' ng-model='masterParams.w' />
   </section>
 
 </div>
