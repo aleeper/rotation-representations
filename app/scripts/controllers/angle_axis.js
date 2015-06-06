@@ -25,7 +25,7 @@ angular.module('rotationAppApp')
       axis_norm.normalize();
       var q = new THREE.Quaternion();
       q.setFromAxisAngle(axis_norm, angle_rad);
-      
+
       // Apply the normalized values to the text field.
       updateAngleAxis(q);
 
