@@ -3,6 +3,7 @@
 </div>
 
 <section class='representation representation-matrix' ng-controller='MatrixCtrl'>
+  <h4>Rotation Matrix</h4>
   <table>
     <tr>
       <td><sup>A</sup>R<sup>B</sup></td>
@@ -12,26 +13,28 @@
     </tr>
     <tr>
       <td>a<sub>x</sub></td>
-      <td><input type='text' ng-model='matrix.xx' /></td>
-      <td><input type='text' ng-model='matrix.xy' /></td>
-      <td><input type='text' ng-model='matrix.xz' /></td>
+      <td><input type='number' ng-model='matrix.xx' /></td>
+      <td><input type='number' ng-model='matrix.xy' /></td>
+      <td><input type='number' ng-model='matrix.xz' /></td>
     </tr>
     <tr>
       <td>a<sub>y</sub></td>
-      <td><input type='text' ng-model='matrix.yx' /></td>
-      <td><input type='text' ng-model='matrix.yy' /></td>
-      <td><input type='text' ng-model='matrix.yz' /></td>
+      <td><input type='number' ng-model='matrix.yx' /></td>
+      <td><input type='number' ng-model='matrix.yy' /></td>
+      <td><input type='number' ng-model='matrix.yz' /></td>
     </tr>
     <tr>
       <td>a<sub>z</sub></td>
-      <td><input type='text' ng-model='matrix.zx' /></td>
-      <td><input type='text' ng-model='matrix.zy' /></td>
-      <td><input type='text' ng-model='matrix.zz' /></td>
+      <td><input type='number' ng-model='matrix.zx' /></td>
+      <td><input type='number' ng-model='matrix.zy' /></td>
+      <td><input type='number' ng-model='matrix.zz' /></td>
     </tr>
   </table>
+  <button ng-click="setMasterParams()">Set</button>
 </section>
 
 <section class='representation representation-quaternion' ng-controller='QuaternionCtrl'>
+  <h4>Quaternion (Euler Parameters)</h4>
   <table>
     <tbody>
       <tr>
@@ -60,15 +63,51 @@
       </tr>
     </tbody>
   </table>
+  <button ng-click="setMasterParams()">Set</button>
 </section>
 
-<section class='representation representation-angle-axis'>
-  <input type='text' ng-model='masterParams.w' />
-  <input type='text' ng-model='masterParams.x' />
-  <input type='text' ng-model='masterParams.y' />
-  <input type='text' ng-model='masterParams.z' />
+<section class='representation representation-angle-axis' ng-controller="AngleAxisCtrl">
+  <h4>Angle-Axis</h4>
+  <table>
+    <tbody>
+    <tr>
+      <td>theta <!--&#952--></td>
+      <td>
+        <input type='number' ng-model='angle' />
+      </td>
+    </tr>
+    <tr>
+      <td>x</td>
+      <td>
+        <input type='number' ng-model='axis.x' />
+      </td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td>
+        <input type='number' ng-model='axis.y' />
+      </td>
+    </tr>
+    <tr>
+      <td>z</td>
+      <td>
+        <input type='number' ng-model='axis.z' />
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <button ng-click="setMasterParams()">Set</button>
 </section>
 
 <section class='representation representation-euler-angles'>
+  <h4>Euler Angles</h4>
+  <button ng-click="setMasterParams()">Set</button>
+</section>
 
+<section class='representation'>
+  <h4>Master Params (for debugging)</h4>
+  <input type='number' ng-model='masterParams.w' />
+  <input type='number' ng-model='masterParams.x' />
+  <input type='number' ng-model='masterParams.y' />
+  <input type='number' ng-model='masterParams.z' />
 </section>
