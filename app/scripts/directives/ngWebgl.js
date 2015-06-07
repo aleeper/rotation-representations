@@ -10,12 +10,13 @@ angular.module('rotationAppApp')
         'height': '=',
         'fillcontainer': '=',
         'scale': '=',
-        'materialType': '='
+        'materialType': '=',
+        'quaternion': '='
       },
       link: function postLink(scope, element, attrs) {
 
         var camera, scene, renderer,
-          basis,
+          frameA, frameB,
           shadowMesh, icosahedron, light,
           mouseX = 0, mouseY = 0,
           contW = (scope.fillcontainer) ?
@@ -34,8 +35,12 @@ angular.module('rotationAppApp')
 
           // Scene
           scene = new THREE.Scene();
-          basis = new createRigidBasis(2.0);
-          scene.add(basis);
+
+          // Frames
+          frameA = new createRigidBasis(1.0);
+          scene.add(frameA);
+          frameB = new createRigidBasis(1.0);
+          scene.add(frameB);
 
           // Ligthing
           light = new THREE.DirectionalLight( 0xffffff );
@@ -192,6 +197,11 @@ angular.module('rotationAppApp')
 
         };
 
+        scope.updateQuaternion = function () {
+          var q = scope.quaternion;
+          frameB.quaternion.set(q.x, q.y, q.z, q.w);
+        };
+
 
         // -----------------------------------
         // Draw and Animate
@@ -234,6 +244,11 @@ angular.module('rotationAppApp')
 
           scope.changeMaterial();
 
+        });
+
+        scope.$watch('quaternion', function () {
+
+          scope.updateQuaternion();
         });
 
         // Begin

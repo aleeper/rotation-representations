@@ -8,5 +8,6 @@ angular.module('rotationAppApp')
     $scope.dofillcontainer = true;
     $scope.scale = 1;
     $scope.materialType = 'lambert';
+    $scope.quaternion = {x: 0, y: 0, z: 0, w: 1};
 
   }]);
