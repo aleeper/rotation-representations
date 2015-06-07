@@ -10,4 +10,14 @@ angular.module('rotationAppApp')
     $scope.materialType = 'lambert';
     $scope.quaternion = {x: 0, y: 0, z: 0, w: 1};
 
+    var updateQuaternion = function(newValue, oldValue) {
+      if(newValue === oldValue)
+        return;
+
+      console.log('updateQuaternion in ThreeViewCtrl');
+      $scope.quaternion = {w: newValue.w, x: newValue.x, y: newValue.y, z: newValue.z};
+    };
+
+    $scope.$watch('masterParams', updateQuaternion , true);
+
   }]);

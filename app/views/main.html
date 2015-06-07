@@ -45,28 +45,28 @@
     <table>
       <tbody>
         <tr>
-          <td>x</td>
+          <td>x: </td>
           <td>
             <input type='number' ng-model='quaternion.x' />
           </td>
           <td>e1</td>
         </tr>
         <tr>
-          <td>y</td>
+          <td>y: </td>
           <td>
             <input type='number' ng-model='quaternion.y' />
           </td>
           <td>e2</td>
         </tr>
         <tr>
-          <td>z</td>
+          <td>z: </td>
           <td>
             <input type='number' ng-model='quaternion.z' />
           </td>
           <td>e3</td>
         </tr>
         <tr>
-          <td>w</td>
+          <td>w: </td>
           <td>
             <input type='number' ng-model='quaternion.w' />
           </td>
@@ -131,7 +131,10 @@
 
 <div class="eight columns add-bottom" ng-controller="ThreeViewCtrl">
 
+  <button ng-click="resetMasterParamsToIdentity()">Reset to Identity</button>
+
   <div class="eight columns add-bottom">
+    <!-- Note: The attributes are the names in the directive, the values are the names in the controller.-->
     <div
         id="webglContainer"
         ng-webgl
@@ -140,7 +143,7 @@
         fillcontainer="dofillcontainer"
         scale="scale"
         material-type="materialType"
-        quaternion="masterParams"
+        quaternion="quaternion"
         >
     </div>
   </div>

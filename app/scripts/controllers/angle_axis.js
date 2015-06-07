@@ -31,7 +31,7 @@ angular.module('rotationAppApp')
 
       // Do the update.
       $scope.stopWatching();
-      $scope.$parent.masterParams = {w: q.w, x: q.x, y: q.y, z: q.z};
+      $scope.$parent.$parent.setMasterParams({w: q.w, x: q.x, y: q.y, z: q.z});
       $scope.startWatching();
     };
 
@@ -42,7 +42,7 @@ angular.module('rotationAppApp')
     // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = //
 
     // Initialize this representation.
-    updateAngleAxis($scope.$parent.masterParams);
+    updateAngleAxis($scope.$parent.$parent.masterParams);
 
     // Start watching the masterParams
     $scope.startWatching();
