@@ -11,7 +11,7 @@ angular.module('rotationAppApp')
       var q = new THREE.Quaternion(newValue.x, newValue.y, newValue.z, newValue.w);
       var aa = new THREE.Vector4();
       aa.setAxisAngleFromQuaternion(q);
-      $scope.angle = aa.w;
+      $scope.angle = aa.w * 180/ Math.PI;
       $scope.axis = {x: aa.x, y: aa.y, z: aa.z};
     };
 
@@ -19,9 +19,15 @@ angular.module('rotationAppApp')
       console.log('setMasterParams from angle-axis');
 
       // Do the math.
+      var angle_rad = $scope.angle * Math.PI / 180;
+      var axis_raw = $scope.axis;
+      var axis_norm = new THREE.Vector3(axis_raw.x, axis_raw.y, axis_raw.z);
+      axis_norm.normalize();
       var q = new THREE.Quaternion();
-      var axis = $scope.axis;
-      q.setFromAxisAngle(new THREE.Vector3(axis.x, axis.y, axis.z), $scope.angle);
+      q.setFromAxisAngle(axis_norm, angle_rad);
+      
+      // Apply the normalized values to the text field.
+      updateAngleAxis(q);
 
       // Do the update.
       $scope.stopWatching();
