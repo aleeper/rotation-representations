@@ -17,7 +17,7 @@ angular.module('rotationAppApp')
       // Do the math.
       var raw = $scope.quaternion;
 
-      var q_norm = new THREE.Vector4(raw.x, raw.y, raw.z, raw.w);
+      var q_norm = new THREE.Quaternion(raw.x, raw.y, raw.z, raw.w);
       console.log('quaternion magnitude = ' + q_norm.length());
       q_norm.normalize();
 
@@ -26,7 +26,7 @@ angular.module('rotationAppApp')
 
       // Do the update.
       $scope.stopWatching();
-      $scope.$parent.masterParams = {w: q_norm.w, x: q_norm.x, y: q_norm.y, z: q_norm.z};
+      $scope.$parent.$parent.setMasterParams({w: q_norm.w, x: q_norm.x, y: q_norm.y, z: q_norm.z});
       $scope.startWatching();
     };
 
@@ -37,7 +37,7 @@ angular.module('rotationAppApp')
     // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = //
 
     // Initialize this representation.
-    updateQuaternion($scope.$parent.masterParams);
+    updateQuaternion($scope.$parent.$parent.masterParams);
 
     // Start watching the masterParams
     $scope.startWatching();

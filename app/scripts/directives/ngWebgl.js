@@ -74,7 +74,7 @@ angular.module('rotationAppApp')
 
           // Apply the shadow texture to a plane
           shadowMesh = new THREE.Mesh( shadowGeo, shadowMaterial );
-          shadowMesh.position.y = - 2.5;
+          shadowMesh.position.y = - 1.5;
           shadowMesh.rotation.x = - Math.PI / 2;
           scene.add( shadowMesh );
 

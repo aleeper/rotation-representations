@@ -24,16 +24,22 @@ angular.module('rotationAppApp')
       // Do the math
       var matrix = $scope.matrix;
       // Oddly enough, the three.js matrix constructor is row-major.
-      var m = new THREE.Matrix4(matrix.xx, matrix.xy, matrix.xz, 0,
-                                matrix.yx, matrix.yy, matrix.yz, 0,
-                                matrix.zx, matrix.zy, matrix.zz, 0,
-                                        0,         0,         0, 1);
+      var m = new THREE.Matrix4();
+      m.set(matrix.xx, matrix.xy, matrix.xz, 0,
+            matrix.yx, matrix.yy, matrix.yz, 0,
+            matrix.zx, matrix.zy, matrix.zz, 0,
+            0,         0,         0,         1);
+
       var q = new THREE.Quaternion();
       q.setFromRotationMatrix(m);
+      q.normalize();
+
+      // Set matrix from this normalized quaternion.
+      updateMatrix(q);
 
       // Do the update.
       $scope.stopWatching();
-      $scope.$parent.masterParams = {w: q.w, x: q.x, y: q.y, z: q.z};
+      $scope.$parent.$parent.setMasterParams({w: q.w, x: q.x, y: q.y, z: q.z});
       $scope.startWatching();
     };
 
@@ -44,7 +50,7 @@ angular.module('rotationAppApp')
     // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = //
 
     // Initialize this representation.
-    updateMatrix($scope.$parent.masterParams);
+    updateMatrix($scope.$parent.$parent.masterParams);
 
     // Start watching the masterParams
     $scope.startWatching();
