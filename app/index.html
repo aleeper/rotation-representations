@@ -14,7 +14,10 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/skeleton.css">
+    <!--<link rel="stylesheet" href="styles/main.css">-->
     <!-- endbuild -->
   </head>
   <body ng-app="rotationAppApp">
@@ -68,6 +71,9 @@
         <script src="scripts/controllers/quaternion.js"></script>
         <script src="scripts/controllers/angle_axis.js"></script>
         <script src="scripts/controllers/euler_angles.js"></script>
+        <script src="scripts/controllers/threeView.js"></script>
+        <script src="scripts/directives/ngWebgl.js"></script>
+        <script src="scripts/threeHelpers.js"></script>
         <!-- endbuild -->
 </body>
 </html>

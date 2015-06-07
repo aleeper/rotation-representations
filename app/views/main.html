@@ -1,113 +1,173 @@
-<div class="header">
-  <h3 class="text-muted">Rotation App</h3>
+<!-- HEADER -->
+<div class="sixteen columns add-bottom header">
+  <div class="navbar">
+    <h3>Rotation Representations</h3>
+  </div>
+  <hr />
 </div>
+<!-- END HEADER -->
 
-<section class='representation representation-matrix' ng-controller='MatrixCtrl'>
-  <h4>Rotation Matrix</h4>
-  <table>
-    <tr>
-      <td><sup>A</sup>R<sup>B</sup></td>
-      <td>b<sub>x</sub></td>
-      <td>b<sub>y</sub></td>
-      <td>b<sub>z</sub></td>
-    </tr>
-    <tr>
-      <td>a<sub>x</sub></td>
-      <td><input type='number' ng-model='matrix.xx' /></td>
-      <td><input type='number' ng-model='matrix.xy' /></td>
-      <td><input type='number' ng-model='matrix.xz' /></td>
-    </tr>
-    <tr>
-      <td>a<sub>y</sub></td>
-      <td><input type='number' ng-model='matrix.yx' /></td>
-      <td><input type='number' ng-model='matrix.yy' /></td>
-      <td><input type='number' ng-model='matrix.yz' /></td>
-    </tr>
-    <tr>
-      <td>a<sub>z</sub></td>
-      <td><input type='number' ng-model='matrix.zx' /></td>
-      <td><input type='number' ng-model='matrix.zy' /></td>
-      <td><input type='number' ng-model='matrix.zz' /></td>
-    </tr>
-  </table>
-  <button ng-click="setMasterParams()">Set</button>
-</section>
+<div class="eight columns">
 
-<section class='representation representation-quaternion' ng-controller='QuaternionCtrl'>
-  <h4>Quaternion (Euler Parameters)</h4>
-  <table>
-    <tbody>
+  <section class='representation representation-matrix eight columns' ng-controller='MatrixCtrl'>
+    <h4>Rotation Matrix</h4>
+    <table>
       <tr>
-        <td>w</td>
+        <td><sup>A</sup>R<sup>B</sup></td>
+        <td>b<sub>x</sub></td>
+        <td>b<sub>y</sub></td>
+        <td>b<sub>z</sub></td>
+      </tr>
+      <tr>
+        <td>a<sub>x</sub></td>
+        <td><input type='number' ng-model='matrix.xx' /></td>
+        <td><input type='number' ng-model='matrix.xy' /></td>
+        <td><input type='number' ng-model='matrix.xz' /></td>
+      </tr>
+      <tr>
+        <td>a<sub>y</sub></td>
+        <td><input type='number' ng-model='matrix.yx' /></td>
+        <td><input type='number' ng-model='matrix.yy' /></td>
+        <td><input type='number' ng-model='matrix.yz' /></td>
+      </tr>
+      <tr>
+        <td>a<sub>z</sub></td>
+        <td><input type='number' ng-model='matrix.zx' /></td>
+        <td><input type='number' ng-model='matrix.zy' /></td>
+        <td><input type='number' ng-model='matrix.zz' /></td>
+      </tr>
+    </table>
+    <button ng-click="setMasterParams()">Set</button>
+  </section>
+
+  <section class='representation representation-quaternion eight columns' ng-controller='QuaternionCtrl'>
+    <h4>Euler Parameters (Quaternion)</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td>x</td>
+          <td>
+            <input type='number' ng-model='quaternion.x' />
+          </td>
+          <td>e1</td>
+        </tr>
+        <tr>
+          <td>y</td>
+          <td>
+            <input type='number' ng-model='quaternion.y' />
+          </td>
+          <td>e2</td>
+        </tr>
+        <tr>
+          <td>z</td>
+          <td>
+            <input type='number' ng-model='quaternion.z' />
+          </td>
+          <td>e3</td>
+        </tr>
+        <tr>
+          <td>w</td>
+          <td>
+            <input type='number' ng-model='quaternion.w' />
+          </td>
+          <td>e0</td>
+        </tr>
+      </tbody>
+    </table>
+    <button ng-click="setMasterParams()">Set</button>
+  </section>
+
+  <section class='representation representation-angle-axis eight columns' ng-controller="AngleAxisCtrl">
+    <h4>Angle-Axis</h4>
+    <table>
+      <tbody>
+      <tr>
+        <td>theta <!--&#952--></td>
         <td>
-          <input type='number' ng-model='quaternion.w' />
+          <input type='number' ng-model='angle' />
         </td>
       </tr>
       <tr>
         <td>x</td>
         <td>
-          <input type='number' ng-model='quaternion.x' />
+          <input type='number' ng-model='axis.x' />
         </td>
       </tr>
       <tr>
         <td>y</td>
         <td>
-          <input type='number' ng-model='quaternion.y' />
+          <input type='number' ng-model='axis.y' />
         </td>
       </tr>
       <tr>
         <td>z</td>
         <td>
-          <input type='number' ng-model='quaternion.z' />
+          <input type='number' ng-model='axis.z' />
         </td>
       </tr>
-    </tbody>
-  </table>
-  <button ng-click="setMasterParams()">Set</button>
-</section>
+      </tbody>
+    </table>
+    <button ng-click="setMasterParams()">Set</button>
+  </section>
 
-<section class='representation representation-angle-axis' ng-controller="AngleAxisCtrl">
-  <h4>Angle-Axis</h4>
-  <table>
-    <tbody>
-    <tr>
-      <td>theta <!--&#952--></td>
-      <td>
-        <input type='number' ng-model='angle' />
-      </td>
-    </tr>
-    <tr>
-      <td>x</td>
-      <td>
-        <input type='number' ng-model='axis.x' />
-      </td>
-    </tr>
-    <tr>
-      <td>y</td>
-      <td>
-        <input type='number' ng-model='axis.y' />
-      </td>
-    </tr>
-    <tr>
-      <td>z</td>
-      <td>
-        <input type='number' ng-model='axis.z' />
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <button ng-click="setMasterParams()">Set</button>
-</section>
+  <section class='representation representation-euler-angles twelve columns'>
+    <h4>Euler Angles</h4>
+    <button ng-click="setMasterParams()">Set</button>
+  </section>
 
-<section class='representation representation-euler-angles'>
-  <h4>Euler Angles</h4>
-  <button ng-click="setMasterParams()">Set</button>
-</section>
+  <section class='representation eight columns'>
+    <h4>Master Params (for debugging)</h4>
+    x: <input type='number' ng-model='masterParams.x' />
+    <br />
+    y: <input type='number' ng-model='masterParams.y' />
+    <br />
+    z: <input type='number' ng-model='masterParams.z' />
+    <br />
+    w: <input type='number' ng-model='masterParams.w' />
+  </section>
 
-<section class='representation'>
-  <h4>Master Params (for debugging)</h4>
-  <input type='number' ng-model='masterParams.w' />
-  <input type='number' ng-model='masterParams.x' />
-  <input type='number' ng-model='masterParams.y' />
-  <input type='number' ng-model='masterParams.z' />
-</section>
+</div>
+
+
+<div class="eight columns add-bottom" ng-controller="ThreeViewCtrl">
+
+  <div class="eight columns add-bottom">
+    <div
+        id="webglContainer"
+        ng-webgl
+        width="canvasWidth"
+        height="canvasHeight"
+        fillcontainer="dofillcontainer"
+        scale="scale"
+        material-type="materialType"
+        quaternion="masterParams"
+        >
+    </div>
+  </div>
+
+  <!--<div class="eight columns add-bottom">-->
+
+    <!--<label for="scale">Scale Object</label>-->
+    <!--<input type="range" name="scale" min="0.1" max="1.2" step="0.1" ng-model="scale" class="add-bottom">-->
+
+    <!--<label for="canvasWidth">Canvas Width</label>-->
+    <!--<input type="text" id="canvasWidth" ng-model="canvasWidth" ng-disabled="dofillcontainer">-->
+
+    <!--<label for="canvasHeight">Canvas Height</label>-->
+    <!--<input type="text" id="canvasHeight" ng-model="canvasHeight" ng-disabled="dofillcontainer">-->
+
+    <!--<label for="materialsList">Material Type</label>-->
+    <!--<select id="materialsList" ng-model="materialType">-->
+      <!--<option value="lambert">Lambert</option>-->
+      <!--<option value="phong">Phong</option>-->
+      <!--<option value="wireframe">Wire Frame</option>-->
+    <!--</select>-->
+
+    <!--<label for="dofillcontainer">-->
+      <!--<input type="checkbox" id="dofillcontainer" ng-model="dofillcontainer"/>-->
+      <!--<span>Responsive Canvas</span>-->
+    <!--</label>-->
+
+  <!--</div>-->
+
+</div>
