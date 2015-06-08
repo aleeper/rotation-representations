@@ -11,13 +11,16 @@ angular.module('rotationAppApp')
         'fillcontainer': '=',
         'scale': '=',
         'materialType': '=',
-        'quaternion': '='
+        'quaternion': '=',
+        'test': '='
       },
       link: function postLink(scope, element, attrs) {
 
-        var camera, scene, renderer,
+        var TAG = "ngWebgl";
+
+        var camera, scene, renderer, controls, clock,
           frameA, frameB,
-          shadowMesh, icosahedron, light,
+          shadowMesh, icosahedron, mainLight, secondLight,
           mouseX = 0, mouseY = 0,
           contW = (scope.fillcontainer) ?
             element[0].clientWidth : scope.width,
@@ -26,26 +29,39 @@ angular.module('rotationAppApp')
           windowHalfY = contH / 2,
           materials = {};
 
+        var mouseIsDown = false;
+
         scope.init = function () {
           console.log('ngWebgl init!');
 
+          // Clock
+          clock = new THREE.Clock(true);
+
           // Camera
           camera = new THREE.PerspectiveCamera(30, contW / contH, 0.1, 100 );
-          camera.position.z = 10;
+          camera.position.set(3, 3, 10);
+          camera.lookAt(new THREE.Vector3());
 
           // Scene
           scene = new THREE.Scene();
 
           // Frames
-          frameA = new createRigidBasis(1.0);
+          var positionOffset = new THREE.Vector3(0, 0, -0.01);
+          frameA = createRigidBasis(1.5, 0.04);
+          frameA.position.copy(positionOffset);
           scene.add(frameA);
-          frameB = new createRigidBasis(1.0);
+          frameB = createRigidBasis(1.0, 0.06);
+          frameB.position.copy(positionOffset);
           scene.add(frameB);
 
-          // Ligthing
-          light = new THREE.DirectionalLight( 0xffffff );
-          light.position.set( 1, 1, 1 );
-          scene.add( light );
+          // Lighting
+          mainLight = new THREE.DirectionalLight(0xffffff);
+          mainLight.position.set(1, 1, 1);
+          scene.add(mainLight);
+
+          secondLight = new THREE.DirectionalLight(0xffffff, 0.5);
+          secondLight.position.set(-1, -1, -1);
+          scene.add(secondLight);
 
           // Shadow
           var canvas = document.createElement( 'canvas' );
@@ -140,6 +156,23 @@ angular.module('rotationAppApp')
           // element is provided by the angular directive
           element[0].appendChild( renderer.domElement );
 
+          //controls = new THREE.OrbitControlsLeeper(camera, renderer.domElement);
+          //controls.userZoom = false;
+          //controls.userRotateSpeed = 1.0;
+          //controls.userPan = false;
+
+          //controls = new THREE.OrbitControls(frameB, renderer.domElement);
+          //controls.noZoom = true;
+          //controls.noPan = true;
+
+          controls = new THREE.TrackballControls(frameB, renderer.domElement);
+          controls.noZoom = true;
+          controls.noPan = true;
+          controls.staticMoving = true;
+
+          renderer.domElement.addEventListener( 'mousedown', scope.onCanvasMouseDown, false);
+          renderer.domElement.addEventListener( 'mouseup', scope.onCanvasMouseUp, false);
+
           document.addEventListener( 'mousemove', scope.onDocumentMouseMove, false );
 
           window.addEventListener( 'resize', scope.onWindowResize, false );
@@ -163,6 +196,15 @@ angular.module('rotationAppApp')
           mouseX = ( event.clientX - windowHalfX );
           mouseY = ( event.clientY - windowHalfY );
 
+        };
+
+        scope.onCanvasMouseDown = function (event) {
+          mouseIsDown = true;
+        };
+
+
+        scope.onCanvasMouseUp = function (event) {
+          mouseIsDown = false;
         };
 
         // -----------------------------------
@@ -199,7 +241,11 @@ angular.module('rotationAppApp')
 
         scope.updateQuaternion = function () {
           var q = scope.quaternion;
-          frameB.quaternion.set(q.x, q.y, q.z, q.w);
+          var aQb = new THREE.Quaternion(q.x, q.y, q.z, q.w);
+          if ("debug" in GLOBAL.queryParams) {
+            console.log(TAG + ": Received new quaternion: " + makeStringQuaternion(aQb));
+          }
+          frameB.setRotationFromQuaternion(q);
         };
 
 
@@ -210,16 +256,18 @@ angular.module('rotationAppApp')
 
           requestAnimationFrame( scope.animate );
 
-          scope.render();
+          if (mouseIsDown) {
+            controls.update();
+            var q = frameB.quaternion;
+            scope.quaternion = {x: q.x, y: q.y, z: q.z, w: q.w};
+            scope.test = clock.getElapsedTime();
+            scope.$apply();
+          }
 
+          scope.render();
         };
 
         scope.render = function () {
-
-          camera.position.x += ( mouseX*0.01 - camera.position.x ) * 0.05;
-          // camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
-
-          camera.lookAt( scene.position );
 
           renderer.render( scene, camera );
 

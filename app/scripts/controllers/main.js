@@ -1,5 +1,7 @@
 'use strict';
 
+var GLOBAL = {};
+
 angular.module('rotationAppApp')
   .controller('MainCtrl', function ($scope) {
     var self = $scope;
