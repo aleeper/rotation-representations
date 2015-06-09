@@ -12,13 +12,15 @@ angular.module('rotationAppApp')
         'scale': '=',
         'materialType': '=',
         'quaternion': '=',
-        'test': '='
+        'test': '=',
+        'controlMode': '='
       },
       link: function postLink(scope, element, attrs) {
 
         var TAG = "ngWebgl";
 
-        var camera, scene, renderer, controls, clock,
+        var camera, scene, renderer, clock,
+          cameraControl, objectControl,
           frameA, frameB,
           shadowMesh, icosahedron, mainLight, secondLight,
           mouseX = 0, mouseY = 0,
@@ -39,7 +41,7 @@ angular.module('rotationAppApp')
 
           // Camera
           camera = new THREE.PerspectiveCamera(30, contW / contH, 0.1, 100 );
-          camera.position.set(3, 3, 10);
+          camera.position.set(5, 5, 10);
           camera.lookAt(new THREE.Vector3());
 
           // Scene
@@ -156,19 +158,27 @@ angular.module('rotationAppApp')
           // element is provided by the angular directive
           element[0].appendChild( renderer.domElement );
 
-          //controls = new THREE.OrbitControlsLeeper(camera, renderer.domElement);
-          //controls.userZoom = false;
-          //controls.userRotateSpeed = 1.0;
-          //controls.userPan = false;
+          //cameraControl = new THREE.OrbitControlsLeeper(camera, renderer.domElement);
+          //cameraControl.userZoom = false;
+          //cameraControl.userRotateSpeed = 1.0;
+          //cameraControl.userPan = false;
 
           //controls = new THREE.OrbitControls(frameB, renderer.domElement);
           //controls.noZoom = true;
           //controls.noPan = true;
 
-          controls = new THREE.TrackballControls(frameB, renderer.domElement);
-          controls.noZoom = true;
-          controls.noPan = true;
-          controls.staticMoving = true;
+          //controls = new THREE.TrackballControls(frameB, renderer.domElement);
+          //controls.noZoom = true;
+          //controls.noPan = true;
+          //controls.staticMoving = true;
+
+          scene.add(new THREE.GridHelper(5, 1));
+
+          objectControl = new THREE.TransformControls( camera, renderer.domElement );
+          //controls.addEventListener( 'change', render );
+          objectControl.attach(frameB);
+          objectControl.setMode('rotate');
+          scene.add(objectControl);
 
           renderer.domElement.addEventListener( 'mousedown', scope.onCanvasMouseDown, false);
           renderer.domElement.addEventListener( 'mouseup', scope.onCanvasMouseUp, false);
@@ -248,6 +258,10 @@ angular.module('rotationAppApp')
           frameB.setRotationFromQuaternion(q);
         };
 
+        scope.updateControlMode = function () {
+          objectControl.setSpace(scope.controlMode === 'world' ? 'world' : 'local' );
+        }
+
 
         // -----------------------------------
         // Draw and Animate
@@ -256,8 +270,10 @@ angular.module('rotationAppApp')
 
           requestAnimationFrame( scope.animate );
 
+          //cameraControl.update();
+
           if (mouseIsDown) {
-            controls.update();
+            //controls.update();
             var q = frameB.quaternion;
             scope.quaternion = {x: q.x, y: q.y, z: q.z, w: q.w};
             scope.test = clock.getElapsedTime();
@@ -297,6 +313,11 @@ angular.module('rotationAppApp')
         scope.$watch('quaternion', function () {
 
           scope.updateQuaternion();
+        });
+
+        scope.$watch('controlMode', function () {
+
+          scope.updateControlMode();
         });
 
         // Begin

@@ -133,6 +133,8 @@
 
   <button ng-click="resetMasterParamsToIdentity()">Reset to Identity</button>
 
+  <button class="pull-right" ng-click="toggleControlMode()">Rotation Axes: Frame {{controlModeLabel}}</button>
+
   <div class="eight columns add-bottom">
     <!-- Note: The attributes are the names in the directive, the values are the names in the controller.-->
     <div
@@ -145,6 +147,7 @@
         material-type="materialType"
         quaternion="ctrlQuaternion"
         test="test"
+        control-mode="controlMode"
         >
     </div>
   </div>
