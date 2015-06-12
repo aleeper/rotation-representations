@@ -7,7 +7,10 @@ angular.module('rotationAppApp')
       if(newValue === oldValue)
         return;
 
-      console.log('updateAngleAxis');
+      if ("debug" in GLOBAL.queryParams) {
+        console.log('updateAngleAxis');
+      }
+
       var q = new THREE.Quaternion(newValue.x, newValue.y, newValue.z, newValue.w);
       var aa = new THREE.Vector4();
       aa.setAxisAngleFromQuaternion(q);

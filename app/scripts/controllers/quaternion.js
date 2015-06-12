@@ -7,7 +7,10 @@ angular.module('rotationAppApp')
       if(newValue === oldValue)
         return;
 
-      console.log('updateQuaternion');
+      if ("debug" in GLOBAL.queryParams) {
+        console.log('updateQuaternion');
+      }
+
       $scope.quaternion = {w: newValue.w, x: newValue.x, y: newValue.y, z: newValue.z};
     };
 
@@ -18,7 +21,6 @@ angular.module('rotationAppApp')
       var raw = $scope.quaternion;
 
       var q_norm = new THREE.Quaternion(raw.x, raw.y, raw.z, raw.w);
-      console.log('quaternion magnitude = ' + q_norm.length());
       q_norm.normalize();
 
       // Apply the normalized values to the view.

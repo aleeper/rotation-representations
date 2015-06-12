@@ -23,7 +23,10 @@ angular.module('rotationAppApp')
       if(newValue === oldValue)
         return;
 
-      console.log(TAG + ': updateQuaternion');
+      if ("debug" in GLOBAL.queryParams) {
+        console.log(TAG + ': updateQuaternion');
+      }
+
       $scope.stopWatchingCtrl();
       $scope.ctrlQuaternion = {w: newValue.w, x: newValue.x, y: newValue.y, z: newValue.z};
       $scope.startWatchingCtrl();

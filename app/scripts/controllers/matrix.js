@@ -7,7 +7,10 @@ angular.module('rotationAppApp')
       if (newValue === oldValue)
         return;
 
-      console.log('updateMatrix');
+      if ("debug" in GLOBAL.queryParams) {
+        console.log('updateMatrix');
+      }
+
       var q = new THREE.Quaternion(newValue.x, newValue.y, newValue.z, newValue.w);
       var m = new THREE.Matrix4();
       m.makeRotationFromQuaternion(q);
