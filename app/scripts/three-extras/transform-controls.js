@@ -570,6 +570,7 @@
 		var scope = this;
 
 		var _dragging = false;
+		var _mouseIsDown = false;
 		var _mode = "translate";
 		var _plane = "XY";
 
@@ -724,7 +725,7 @@
 
 		function onPointerHover( event ) {
 
-			if ( scope.object === undefined || _dragging === true ) return;
+			if ( scope.object === undefined || _mouseIsDown === true ) return;
 
 			event.preventDefault();
 
@@ -752,10 +753,10 @@
 
 		function onPointerDown( event ) {
 
-			if ( scope.object === undefined || _dragging === true ) return;
+			if ( scope.object === undefined || _mouseIsDown === true ) return;
 
 			event.preventDefault();
-			event.stopPropagation();
+			_mouseIsDown = true;
 
 			var pointer = event.changedTouches ? event.changedTouches[ 0 ] : event;
 
@@ -764,6 +765,9 @@
 				var intersect = intersectObjects( pointer, scope.gizmo[_mode].pickers.children );
 
 				if ( intersect ) {
+
+					event.stopPropagation();
+					_dragging = true;
 
 					scope.dispatchEvent( mouseDownEvent );
 
@@ -791,8 +795,6 @@
 				}
 
 			}
-
-			_dragging = true;
 
 		}
 
@@ -967,7 +969,10 @@
 
 		function onPointerUp( event ) {
 
+			_mouseIsDown = false;
+
 			if ( _dragging && ( scope.axis !== null ) ) {
+				event.stopPropagation();
 				mouseUpEvent.mode = _mode;
 				scope.dispatchEvent( mouseUpEvent )
 			}
