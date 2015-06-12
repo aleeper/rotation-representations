@@ -31,6 +31,12 @@ angular.module('rotationAppApp')
           windowHalfY = contH / 2,
           materials = {};
 
+        // The angular directive provides "element".
+        var directiveDomElement = element[0];
+        // We'll use this for the orbit camera controller.
+        var rendererDomParent = document.createElement("div");
+        directiveDomElement.appendChild(rendererDomParent);
+
         var mouseIsDown = false;
 
         scope.init = function () {
@@ -154,31 +160,18 @@ angular.module('rotationAppApp')
           renderer = new THREE.WebGLRenderer( { antialias: true } );
           renderer.setClearColor( 0xffffff );
           renderer.setSize( contW, contH );
-
-          // element is provided by the angular directive
-          element[0].appendChild( renderer.domElement );
-
-          //cameraControl = new THREE.OrbitControlsLeeper(camera, renderer.domElement);
-          //cameraControl.userZoom = false;
-          //cameraControl.userRotateSpeed = 1.0;
-          //cameraControl.userPan = false;
-
-          //controls = new THREE.OrbitControls(frameB, renderer.domElement);
-          //controls.noZoom = true;
-          //controls.noPan = true;
-
-          //controls = new THREE.TrackballControls(frameB, renderer.domElement);
-          //controls.noZoom = true;
-          //controls.noPan = true;
-          //controls.staticMoving = true;
+          rendererDomParent.appendChild( renderer.domElement );
 
           scene.add(new THREE.GridHelper(5, 1));
 
           objectControl = new THREE.TransformControls( camera, renderer.domElement );
-          //controls.addEventListener( 'change', render );
           objectControl.attach(frameB);
           objectControl.setMode('rotate');
           scene.add(objectControl);
+
+          cameraControl = new THREE.OrbitControls(camera, rendererDomParent);
+          cameraControl.noZoom = true;
+          cameraControl.noPan = true;
 
           renderer.domElement.addEventListener( 'mousedown', scope.onCanvasMouseDown, false);
           renderer.domElement.addEventListener( 'mouseup', scope.onCanvasMouseUp, false);
@@ -260,7 +253,7 @@ angular.module('rotationAppApp')
 
         scope.updateControlMode = function () {
           objectControl.setSpace(scope.controlMode === 'world' ? 'world' : 'local' );
-        }
+        };
 
 
         // -----------------------------------
@@ -270,10 +263,15 @@ angular.module('rotationAppApp')
 
           requestAnimationFrame( scope.animate );
 
-          //cameraControl.update();
+          if (cameraControl instanceof THREE.Object3D) {
+            cameraControl.update();
+          }
+
+          if (objectControl instanceof THREE.Object3D) {
+            objectControl.update();
+          }
 
           if (mouseIsDown) {
-            //controls.update();
             var q = frameB.quaternion;
             scope.quaternion = {x: q.x, y: q.y, z: q.z, w: q.w};
             scope.test = clock.getElapsedTime();
